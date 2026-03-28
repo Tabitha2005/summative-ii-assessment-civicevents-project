@@ -1,0 +1,14 @@
+uploads/
+*.log
+*.mp3
+*.mp4
+*.wav
+*.ogg
+*.m4a
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mov
+*.avi
+*.mkv

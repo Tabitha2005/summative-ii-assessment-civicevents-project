@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — CivicEvents+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="min-h-screen flex flex-col lg:flex-row">
+
+  <!-- Left panel — image (lg+) -->
+  <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-shrink-0">
+    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&auto=format&fit=crop&q=80"
+         alt="Community" class="absolute inset-0 w-full h-full object-cover"
+         onerror="this.style.display='none'">
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/75 to-purple-900/60"></div>
+    <div class="relative z-10 flex flex-col justify-end p-10 xl:p-12 text-white">
+      <a href="index.html" class="text-2xl xl:text-3xl font-extrabold mb-4">CivicEvents+</a>
+      <p class="text-indigo-200 text-base xl:text-lg leading-relaxed max-w-sm">
+        "Empowering communities through civic engagement, one event at a time."
+      </p>
+    </div>
+  </div>
+
+  <!-- Right panel — form -->
+  <div class="flex-1 flex items-center justify-center bg-gray-50 px-4 sm:px-6 py-10 min-h-screen lg:min-h-0">
+    <div class="w-full max-w-sm sm:max-w-md">
+
+      <!-- Mobile logo -->
+      <div class="lg:hidden text-center mb-8">
+        <a href="index.html" class="text-2xl sm:text-3xl font-bold text-indigo-700">CivicEvents+</a>
+      </div>
+
+      <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">Welcome back</h1>
+      <p class="text-gray-500 text-sm mb-6 sm:mb-8">Sign in to your account to continue</p>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 auth-card">
+        <form id="login-form" novalidate>
+          <div class="mb-4 sm:mb-5">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" required
+              class="form-input" placeholder="you@example.com">
+          </div>
+          <div class="mb-6 sm:mb-7">
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+            <div class="relative">
+              <input id="password" name="password" type="password" autocomplete="current-password" required
+                class="form-input pr-11" placeholder="••••••••">
+              <button type="button" id="toggle-pwd"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none p-1"
+                aria-label="Toggle password visibility">
+                <svg id="eye-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <button id="login-btn" type="submit" class="btn-primary w-full py-3 text-sm">
+            Sign In
+          </button>
+        </form>
+        <p class="text-center text-sm text-gray-500 mt-5">
+          Don't have an account? <a href="signup.html" class="text-indigo-600 hover:underline font-semibold">Create one free</a>
+        </p>
+      </div>
+
+      <p class="text-center text-xs text-gray-400 mt-5">
+        <a href="index.html" class="hover:text-indigo-500">← Back to home</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    $(function () {
+      if (isLoggedIn()) window.location.href = 'events.html';
+      $('#toggle-pwd').on('click', function () {
+        const $p = $('#password');
+        const isText = $p.attr('type') === 'text';
+        $p.attr('type', isText ? 'password' : 'text');
+        $('#eye-icon').toggleClass('opacity-40', !isText);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement Form — CivicEvents+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="nav-placeholder"></div>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
+    <a id="back-btn" href="announcements.html" class="inline-flex items-center gap-1 text-indigo-600 text-sm hover:underline mb-6">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back
+    </a>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 auth-card">
+      <h1 id="form-title" class="text-xl font-bold text-gray-800 mb-6">Create Announcement</h1>
+      <form id="ann-form" enctype="multipart/form-data" novalidate>
+
+        <div class="mb-5">
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1.5">Title <span class="text-red-500">*</span></label>
+          <input id="title" name="title" type="text" required class="form-input" placeholder="Announcement title">
+        </div>
+
+        <div class="mb-5">
+          <label for="audio" class="block text-sm font-medium text-gray-700 mb-1.5">Audio File <span class="text-red-500">*</span></label>
+          <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-indigo-300 transition">
+            <input id="audio" name="audio" type="file" accept="audio/*" class="hidden" aria-describedby="audio-hint">
+            <label for="audio" class="cursor-pointer">
+              <svg class="w-8 h-8 text-gray-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+              <p class="text-sm text-gray-500">Click to upload audio</p>
+              <p id="audio-hint" class="text-xs text-gray-400 mt-1">MP3, WAV, OGG, M4A — max 100MB</p>
+            </label>
+            <p id="audio-file-name" class="text-xs text-indigo-600 mt-2 font-medium"></p>
+          </div>
+          <!-- Audio preview -->
+          <div id="audio-preview-wrap" class="hidden mt-3 bg-indigo-50 border border-indigo-200 rounded-xl p-3">
+            <p class="text-xs text-indigo-600 font-semibold mb-2">Preview:</p>
+            <audio id="audio-preview" controls class="w-full" aria-label="Audio preview"></audio>
+            <p class="text-xs text-slate-400 mt-1">This is how the audio will sound to users.</p>
+          </div>
+        </div>
+
+        <div class="mb-6 flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+          <input id="published" name="published" type="checkbox" class="w-4 h-4 accent-indigo-600">
+          <div>
+            <label for="published" class="text-sm font-medium text-gray-700 cursor-pointer">Publish immediately</label>
+            <p class="text-xs text-gray-400">A notification will be sent to all users when published.</p>
+          </div>
+        </div>
+
+        <progress id="upload-progress" class="hidden mb-4" value="0" max="100" aria-label="Upload progress"></progress>
+
+        <div class="flex gap-3">
+          <button id="submit-btn" type="submit" class="btn-primary">Save Announcement</button>
+          <a href="announcements.html" class="px-5 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/announcements.js"></script>
+  <script>
+    $(function () {
+      setupAjax();
+      if (isAdmin()) $('#back-btn').attr('href', 'dashboard.html').text('← Back to Dashboard');
+      $('#audio').on('change', function () {
+        const f = this.files[0];
+        if (f) {
+          $('#audio-file-name').text(f.name + ' (' + (f.size/1024/1024).toFixed(1) + ' MB)');
+          const url = URL.createObjectURL(f);
+          $('#audio-preview').attr('src', url);
+          $('#audio-preview-wrap').removeClass('hidden');
+        }
+      });
+      $('#nav-placeholder').load('partials/nav.html');
+      $('#footer-placeholder').load('partials/footer.html');
+    });
+  </script>
+</body>
+</html>

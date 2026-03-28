@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — CivicEvents+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col">
+  <div id="nav-placeholder"></div>
+
+  <!-- ===== GLOBAL MODAL ===== -->
+  <div id="modal-overlay" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="modal-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
+        <h2 id="modal-title" class="text-lg font-bold text-gray-800"></h2>
+        <button id="modal-close" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="modal-body" class="overflow-y-auto p-6 flex-1"></div>
+    </div>
+  </div>
+
+  <div class="flex flex-1 max-w-7xl mx-auto w-full px-3 sm:px-4 py-4 sm:py-6 gap-4 sm:gap-6">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-56 flex-shrink-0 hidden md:flex flex-col gap-2 h-fit sticky top-18">
+      <!-- Admin info card -->
+      <div class="bg-slate-800 rounded-2xl border border-slate-700/60 p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <p class="text-white text-xs font-bold">Admin Panel</p>
+            <p class="text-slate-500 text-[10px]">Full access</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav links -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-2">
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="overview">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Overview
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="users">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Users
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="events">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Events
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="announcements">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+          Announcements
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="promos">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          Promos
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="notifications">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          Notifications
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition font-medium" data-tab="registrations">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          Registrations
+        </a>
+
+        <hr class="my-2 border-slate-100">
+        <a href="events.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition font-medium">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          View Public Site
+        </a>
+      </div>
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
+
+    <!-- Mobile FAB -->
+    <div class="md:hidden fixed bottom-4 right-4 z-50">
+      <button id="sidebar-toggle" class="bg-indigo-600 text-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center" aria-label="Open menu">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Mobile tab bar -->
+      <div class="md:hidden flex gap-1 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-indigo-600 text-white font-medium" data-tab="overview">Overview</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="users">Users</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="events">Events</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="announcements">Announcements</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="promos">Promos</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="notifications">Notifications</button>
+        <button class="mob-tab flex-shrink-0 text-xs px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium" data-tab="registrations">Registrations</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="tab-overview" class="tab-panel">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-5">Overview</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6 sm:mb-8">
+          <!-- Events -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer sidebar-link" data-tab="events">
+            <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🗓</div>
+            <p class="text-2xl font-extrabold text-indigo-600 text-center" id="stat-events">—</p>
+            <p class="text-xs text-slate-500 mt-1 font-semibold text-center">Events</p>
+            <p class="text-[11px] text-slate-400 text-center mt-0.5" id="stat-events-sub"></p>
+          </div>
+          <!-- Promos -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer sidebar-link" data-tab="promos">
+            <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🎬</div>
+            <p class="text-2xl font-extrabold text-pink-500 text-center" id="stat-promos">—</p>
+            <p class="text-xs text-slate-500 mt-1 font-semibold text-center">Promos</p>
+            <p class="text-[11px] text-slate-400 text-center mt-0.5" id="stat-ann-badge"></p>
+          </div>
+          <!-- Users -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer sidebar-link" data-tab="users">
+            <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">👥</div>
+            <p class="text-2xl font-extrabold text-emerald-600 text-center" id="stat-users">—</p>
+            <p class="text-xs text-slate-500 mt-1 font-semibold text-center">Users</p>
+            <p class="text-[11px] text-slate-400 text-center mt-0.5" id="stat-users-sub"></p>
+          </div>
+          <!-- Registrations -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer sidebar-link" data-tab="registrations">
+            <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">📋</div>
+            <p class="text-2xl font-extrabold text-amber-600 text-center" id="stat-registrations">—</p>
+            <p class="text-xs text-slate-500 mt-1 font-semibold text-center">Registrations</p>
+            <p class="text-[11px] text-slate-400 text-center mt-0.5">all time</p>
+          </div>
+          <!-- Notifications -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer sidebar-link" data-tab="notifications">
+            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🔔</div>
+            <p class="text-2xl font-extrabold text-blue-600 text-center" id="stat-notifications">—</p>
+            <p class="text-xs text-slate-500 mt-1 font-semibold text-center">Notifications</p>
+            <p class="text-[11px] text-slate-400 text-center mt-0.5">broadcast</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5">
+            <h3 class="font-semibold text-gray-700 mb-3 text-sm">User Growth (6 months)</h3>
+            <canvas id="bar-chart" height="200"></canvas>
+          </div>
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5">
+            <h3 class="font-semibold text-gray-700 mb-3 text-sm">Events Status</h3>
+            <canvas id="doughnut-chart" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-users"          class="tab-panel hidden"></div>
+      <div id="tab-events"         class="tab-panel hidden"></div>
+      <div id="tab-announcements"  class="tab-panel hidden"></div>
+      <div id="tab-promos"         class="tab-panel hidden"></div>
+      <div id="tab-notifications"  class="tab-panel hidden"></div>
+      <div id="tab-registrations"  class="tab-panel hidden"></div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/dashboard.js"></script>
+  <script>
+    $(function () {
+      setupAjax();
+      $('#nav-placeholder').load('partials/admin-nav.html');
+      $('#footer-placeholder').load('partials/admin-footer.html');
+
+      $('#sidebar-toggle').on('click', function () {
+        $('#sidebar').toggleClass('open');
+        $('#sidebar-overlay').toggleClass('hidden');
+      });
+      $('#sidebar-overlay').on('click', function () {
+        $('#sidebar').removeClass('open');
+        $(this).addClass('hidden');
+      });
+
+      $('.mob-tab').on('click', function () {
+        const tab = $(this).data('tab');
+        $('.mob-tab').removeClass('bg-indigo-600 text-white').addClass('bg-white border border-gray-200 text-gray-600');
+        $(this).addClass('bg-indigo-600 text-white').removeClass('bg-white border border-gray-200 text-gray-600');
+        if (typeof switchTab === 'function') switchTab(tab);
+      });
+    });
+  </script>
+</body>
+</html>

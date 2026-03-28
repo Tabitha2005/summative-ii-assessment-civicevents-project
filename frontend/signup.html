@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — CivicEvents+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="min-h-screen flex flex-col lg:flex-row">
+
+  <!-- Left panel — image (lg+) -->
+  <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-shrink-0">
+    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&auto=format&fit=crop&q=80"
+         alt="Community event" class="absolute inset-0 w-full h-full object-cover"
+         onerror="this.style.display='none'">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/75 to-indigo-900/60"></div>
+    <div class="relative z-10 flex flex-col justify-end p-10 xl:p-12 text-white">
+      <a href="index.html" class="text-2xl xl:text-3xl font-extrabold mb-4">CivicEvents+</a>
+      <p class="text-indigo-200 text-base xl:text-lg leading-relaxed max-w-sm">
+        Join thousands of citizens making their communities better, one event at a time.
+      </p>
+      <div class="flex gap-3 mt-6 sm:mt-8">
+        <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 text-center">
+          <p class="text-xl sm:text-2xl font-bold">500+</p>
+          <p class="text-xs text-indigo-200">Events</p>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 text-center">
+          <p class="text-xl sm:text-2xl font-bold">12K+</p>
+          <p class="text-xs text-indigo-200">Members</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right panel — form -->
+  <div class="flex-1 flex items-center justify-center bg-gray-50 px-4 sm:px-6 py-10 overflow-y-auto min-h-screen lg:min-h-0">
+    <div class="w-full max-w-sm sm:max-w-md">
+
+      <!-- Mobile logo -->
+      <div class="lg:hidden text-center mb-8">
+        <a href="index.html" class="text-2xl sm:text-3xl font-bold text-indigo-700">CivicEvents+</a>
+      </div>
+
+      <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">Create your account</h1>
+      <p class="text-gray-500 text-sm mb-6 sm:mb-8">Free forever. No credit card required.</p>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 auth-card">
+        <form id="signup-form" novalidate>
+          <div class="mb-4">
+            <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
+            <input id="full_name" name="full_name" type="text" autocomplete="name" required
+              class="form-input" placeholder="Jane Doe">
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" required
+              class="form-input" placeholder="you@example.com">
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" required
+              class="form-input" placeholder="••••••••" aria-describedby="pwd-hint">
+            <div class="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div id="pwd-bar" class="h-full bg-red-500 rounded-full transition-all" style="width:0%"></div>
+            </div>
+            <div class="flex justify-between mt-1 gap-2">
+              <p id="pwd-hint" class="text-xs text-gray-400">Min 8 chars, uppercase, number, special char</p>
+              <p id="pwd-label" class="text-xs font-medium text-gray-400 flex-shrink-0"></p>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1.5">Confirm Password</label>
+            <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required
+              class="form-input" placeholder="••••••••">
+          </div>
+          <button id="signup-btn" type="submit" class="btn-primary w-full py-3 text-sm">
+            Create Account
+          </button>
+        </form>
+        <p class="text-center text-sm text-gray-500 mt-5">
+          Already have an account? <a href="login.html" class="text-indigo-600 hover:underline font-semibold">Sign in</a>
+        </p>
+      </div>
+
+      <p class="text-center text-xs text-gray-400 mt-5">
+        <a href="index.html" class="hover:text-indigo-500">← Back to home</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

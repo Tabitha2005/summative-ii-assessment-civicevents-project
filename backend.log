@@ -1,0 +1,7 @@
+[dotenv@17.2.3] injecting env (7) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+✅ Backend API running on http://localhost:8080
+Connected to PostgreSQL
+[0mGET /api/auth/login [33m404[0m 7.059 ms - 153[0m
+[0mGET /health [32m200[0m 9.711 ms - 11[0m
+[0mPOST /api/auth/login [32m200[0m 246.896 ms - 402[0m

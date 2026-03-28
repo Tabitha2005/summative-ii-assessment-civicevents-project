@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicEvents+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4 sm:px-8 py-4">
+    <span class="text-white text-xl sm:text-2xl font-bold tracking-tight">CivicEvents+</span>
+    <div class="flex gap-2 sm:gap-3">
+      <a href="login.html" class="text-white text-xs sm:text-sm font-medium px-3 sm:px-5 py-2 rounded-full border border-white/60 hover:bg-white/10 transition">Sign In</a>
+      <a href="signup.html" class="text-indigo-700 text-xs sm:text-sm font-semibold px-3 sm:px-5 py-2 rounded-full bg-white hover:bg-indigo-50 transition">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600&auto=format&fit=crop&q=80"
+         alt="Community gathering"
+         class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/80 via-indigo-800/70 to-purple-900/60"></div>
+
+    <div class="relative z-10 text-center text-white px-4 sm:px-6 max-w-3xl w-full">
+      <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full mb-4 sm:mb-6 tracking-wide uppercase">Your Community Platform</span>
+      <h1 class="hero-title mb-4 sm:mb-5">
+        Connect. Engage.<br>Make a Difference.
+      </h1>
+      <p class="hero-sub text-indigo-100 mb-8 sm:mb-10 max-w-xl mx-auto px-2">
+        Discover local civic events, stay informed with announcements, and be part of the change in your community.
+      </p>
+      <div class="flex gap-3 justify-center flex-wrap px-2">
+        <a href="signup.html" class="bg-white text-indigo-700 font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full hover:bg-indigo-50 transition shadow-lg text-sm">Create Free Account</a>
+        <a href="login.html" class="border-2 border-white/70 text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-full hover:bg-white/10 transition text-sm">Sign In</a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-14 sm:py-20 px-4 sm:px-6 bg-gray-50">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-3">Everything you need to stay civic</h2>
+      <p class="text-center text-gray-500 mb-10 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">One platform for events, announcements, promos, and community engagement.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-8">
+        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-7 text-center hover:shadow-md transition">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">🗓</div>
+          <h3 class="font-bold text-gray-800 mb-2">Civic Events</h3>
+          <p class="text-gray-500 text-sm">Browse, register, and attend local government and community events near you.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-7 text-center hover:shadow-md transition">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">📢</div>
+          <h3 class="font-bold text-gray-800 mb-2">Announcements</h3>
+          <p class="text-gray-500 text-sm">Stay up-to-date with official audio announcements from your local authorities.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-7 text-center hover:shadow-md transition">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">🎬</div>
+          <h3 class="font-bold text-gray-800 mb-2">Promos &amp; Videos</h3>
+          <p class="text-gray-500 text-sm">Watch promotional videos and campaigns from civic organizations in your area.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats banner -->
+  <section class="bg-indigo-700 py-10 sm:py-14 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto stats-banner-grid text-center text-white">
+      <div class="py-2">
+        <p class="text-3xl sm:text-4xl font-extrabold">500+</p>
+        <p class="text-indigo-200 text-xs sm:text-sm mt-1">Events Hosted</p>
+      </div>
+      <div class="py-2">
+        <p class="text-3xl sm:text-4xl font-extrabold">12K+</p>
+        <p class="text-indigo-200 text-xs sm:text-sm mt-1">Community Members</p>
+      </div>
+      <div class="py-2">
+        <p class="text-3xl sm:text-4xl font-extrabold">98%</p>
+        <p class="text-indigo-200 text-xs sm:text-sm mt-1">Satisfaction Rate</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo grid -->
+  <section class="py-14 sm:py-20 px-4 sm:px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-8 sm:mb-12">Community in Action</h2>
+      <div class="photo-grid">
+        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&auto=format&fit=crop&q=70" alt="Community event" class="rounded-2xl object-cover h-32 sm:h-40 w-full">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&auto=format&fit=crop&q=70" alt="Town hall" class="rounded-2xl object-cover h-32 sm:h-40 w-full">
+        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&auto=format&fit=crop&q=70" alt="Volunteers" class="rounded-2xl object-cover h-32 sm:h-40 w-full">
+        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=400&auto=format&fit=crop&q=70" alt="Meeting" class="rounded-2xl object-cover h-32 sm:h-40 w-full">
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-14 sm:py-20 px-4 sm:px-6 bg-gradient-to-br from-indigo-600 to-purple-700 text-white text-center">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4">Ready to get involved?</h2>
+    <p class="text-indigo-200 mb-8 max-w-md mx-auto text-sm sm:text-base">Join thousands of citizens making their communities better, one event at a time.</p>
+    <a href="signup.html" class="bg-white text-indigo-700 font-bold px-8 sm:px-10 py-3 sm:py-3.5 rounded-full hover:bg-indigo-50 transition shadow-lg text-sm sm:text-base">Join CivicEvents+ Free</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 text-center py-5 text-xs sm:text-sm">
+    © 2025 CivicEvents+. All rights reserved.
+  </footer>
+
+  <script>
+    $(function () {
+      setupAjax();
+      if (isLoggedIn()) window.location.href = 'events.html';
+    });
+  </script>
+</body>
+</html>

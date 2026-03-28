@@ -1,0 +1,8 @@
+{
+  "name": "civic-events-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx serve . --listen 5500 --no-port-switching",
+    "start": "npx serve . --listen 5500 --no-port-switching"
+  }
+}

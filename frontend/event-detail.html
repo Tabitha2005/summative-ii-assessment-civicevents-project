@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Detail — CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="nav-placeholder"></div>
+
+  <main class="flex-1 max-w-4xl mx-auto w-full px-4 py-8" id="event-detail">
+    <a href="events.html" class="inline-flex items-center gap-1.5 text-indigo-600 text-sm font-medium hover:text-indigo-800 transition mb-6 group">
+      <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Events
+    </a>
+
+    <!-- Main card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+      <div class="relative">
+        <div id="event-img-container" class="w-full hero-img-sm bg-gradient-to-br from-indigo-900 via-indigo-700 to-purple-800 relative overflow-hidden">
+          <img id="event-img" src="" alt="" class="w-full hero-img-sm object-cover absolute inset-0">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white/10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <h1 id="event-title" class="text-2xl sm:text-3xl font-extrabold text-white leading-tight"></h1>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <!-- Meta row -->
+        <div class="event-meta-grid mb-6">
+          <div class="flex items-center gap-3 bg-indigo-50 rounded-xl p-3">
+            <div class="w-9 h-9 bg-indigo-100 rounded-lg flex items-center justify-center text-lg flex-shrink-0">📍</div>
+            <div>
+              <p class="text-xs text-gray-400 font-medium">Location</p>
+              <p id="event-location" class="text-sm font-semibold text-gray-800"></p>
+              <a id="map-link" href="#" target="_blank" rel="noopener" class="text-xs text-indigo-600 hover:underline hidden">View on map →</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 bg-green-50 rounded-xl p-3">
+            <div class="w-9 h-9 bg-green-100 rounded-lg flex items-center justify-center text-lg flex-shrink-0">🕐</div>
+            <div>
+              <p class="text-xs text-gray-400 font-medium">Starts</p>
+              <p id="event-start" class="text-sm font-semibold text-gray-800"></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 bg-orange-50 rounded-xl p-3">
+            <div class="w-9 h-9 bg-orange-100 rounded-lg flex items-center justify-center text-lg flex-shrink-0">🕔</div>
+            <div>
+              <p class="text-xs text-gray-400 font-medium">Ends</p>
+              <p id="event-end" class="text-sm font-semibold text-gray-800"></p>
+            </div>
+          </div>
+        </div>
+
+        <p id="event-desc" class="text-gray-700 leading-relaxed mb-6"></p>
+
+        <!-- Actions -->
+        <!-- ROLE-BASED GUARD: register button hidden from admins -->
+        <div class="flex gap-3 flex-wrap">
+          <button id="reg-btn" data-registered="false" class="btn-primary flex-1 sm:flex-none justify-center bg-indigo-600 hover:bg-indigo-700" aria-label="Register for event">Register for Event</button>
+          <a id="admin-edit-btn" href="#" class="hidden inline-flex items-center gap-2 px-4 py-2.5 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-xl text-sm font-medium hover:bg-yellow-100 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Edit Event
+          </a>
+          <button id="admin-delete-btn" class="hidden inline-flex items-center gap-2 px-4 py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium hover:bg-red-100 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendees (admin only) -->
+    <section id="attendees-section" class="hidden bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Registered Attendees
+      </h2>
+      <ul id="attendees-list" class="divide-y divide-gray-100"></ul>
+    </section>
+
+    <!-- Feedback -->
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <h2 class="font-bold text-gray-800 mb-1 flex items-center gap-2">
+        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Feedback
+      </h2>
+      <p id="feedback-avg" class="text-sm text-gray-500 mb-5"></p>
+      <div id="feedback-list" class="mb-6 space-y-3"></div>
+
+      <div id="feedback-form-section">
+        <h3 class="font-semibold text-gray-700 mb-4 text-sm">Leave Your Feedback</h3>
+        <form id="feedback-form">
+          <div class="mb-4">
+            <label class="block text-sm text-gray-600 mb-2">Rating <span class="text-red-500">*</span></label>
+            <div id="star-rating" class="star-rating flex gap-2 text-3xl text-gray-300" role="group" aria-label="Star rating">
+              <span data-val="1" tabindex="0" role="radio" aria-label="1 star">★</span>
+              <span data-val="2" tabindex="0" role="radio" aria-label="2 stars">★</span>
+              <span data-val="3" tabindex="0" role="radio" aria-label="3 stars">★</span>
+              <span data-val="4" tabindex="0" role="radio" aria-label="4 stars">★</span>
+              <span data-val="5" tabindex="0" role="radio" aria-label="5 stars">★</span>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="feedback-comment" class="block text-sm text-gray-600 mb-1">Comment <span class="text-gray-400">(optional)</span></label>
+            <textarea id="feedback-comment" rows="3" class="form-input" placeholder="Share your experience..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Submit Feedback</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/events.js"></script>
+  <script>
+    $(function () {
+      setupAjax();
+      // ROLE-BASED GUARD: admins don't register or submit feedback
+      if (isAdmin()) {
+        $('#reg-btn').addClass('hidden');
+        $('#feedback-form-section').addClass('hidden');
+      }
+      $('#nav-placeholder').load('partials/nav.html');
+      $('#footer-placeholder').load('partials/footer.html');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement — CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="nav-placeholder"></div>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-4 py-8" id="ann-detail">
+    <a id="back-link" href="announcements.html" class="inline-flex items-center gap-1 text-indigo-600 text-sm hover:underline mb-6">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back
+    </a>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <!-- Header band -->
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-5 text-white">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">📢</span>
+            <span class="text-xs font-semibold bg-white/20 px-2 py-0.5 rounded-full">Announcement</span>
+          </div>
+          <!-- Admin controls -->
+          <div id="admin-ann-controls" class="hidden flex gap-2">
+            <a id="admin-edit-ann" href="#" class="text-xs bg-white/20 hover:bg-white/30 text-white border border-white/30 px-3 py-1.5 rounded-lg transition font-medium">Edit</a>
+            <button id="admin-delete-ann" class="text-xs bg-red-500/80 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg transition font-medium">Delete</button>
+          </div>
+        </div>
+        <h1 id="ann-title" class="text-xl font-bold leading-snug mt-3"></h1>
+        <p id="ann-date" class="text-indigo-200 text-xs mt-1"></p>
+      </div>
+
+      <div class="p-6">
+        <!-- Hidden native audio -->
+        <audio id="audio-player" preload="metadata" class="hidden" aria-label="Announcement audio"></audio>
+
+        <!-- Custom player -->
+        <div class="audio-player mb-4">
+          <div class="audio-ctrl-row">
+            <button id="play-pause-btn" class="play-btn focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Play">
+              <svg id="play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <div class="flex-1">
+              <input id="audio-progress" type="range" min="0" max="100" value="0" class="w-full mb-1" aria-label="Audio seek">
+              <div class="flex justify-between text-xs text-indigo-600 font-medium">
+                <span id="audio-current">0:00</span>
+                <span id="audio-duration">0:00</span>
+              </div>
+            </div>
+            <div class="audio-vol">
+              <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6v12m-3.536-9.536a5 5 0 000 7.072"/></svg>
+              <input id="audio-volume" type="range" min="0" max="1" step="0.05" value="1" class="w-16" aria-label="Volume">
+            </div>
+          </div>
+          <p class="text-xs text-indigo-400 mt-2">⌨️ Space = play/pause &nbsp;·&nbsp; ← → = seek 5s</p>
+        </div>
+
+        <div id="audio-fallback" class="hidden p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm mb-4">
+          ⚠️ Audio cannot be played. The file may be unavailable or your browser doesn't support this format.
+        </div>
+
+        <!-- Transcript -->
+        <section id="transcript-section" class="hidden mt-4 pt-4 border-t border-gray-100">
+          <h2 class="font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Transcript
+          </h2>
+          <p id="transcript" class="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap bg-gray-50 rounded-xl p-4"></p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/announcements.js"></script>
+  <script>
+    $(function () {
+      setupAjax();
+      if (!isLoggedIn()) { logout(); return; }
+      const id = new URLSearchParams(location.search).get('id');
+      if (isAdmin()) {
+        $('#back-link').attr('href', 'dashboard.html').text('← Back to Dashboard');
+        $('#admin-ann-controls').removeClass('hidden');
+        $('#admin-edit-ann').attr('href', 'announcement-form.html?id=' + id);
+        $('#admin-delete-ann').on('click', function () {
+          if (!confirm('Delete this announcement?')) return;
+          $.ajax({ url: BASE_URL + '/api/announcements/' + id, method: 'DELETE' })
+            .done(() => { showToast('Deleted.', 'success'); setTimeout(() => window.location.href = 'dashboard.html', 900); })
+            .fail(() => showToast('Delete failed.', 'error'));
+        });
+      }
+      $('#nav-placeholder').load('partials/nav.html');
+      $('#footer-placeholder').load('partials/footer.html');
+    });
+  </script>
+</body>
+</html>

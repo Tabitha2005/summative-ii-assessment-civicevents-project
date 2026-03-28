@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promo — CivicEvents+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="js/config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="nav-placeholder"></div>
+
+  <main class="flex-1 max-w-3xl mx-auto w-full px-4 py-8" id="promo-detail">
+    <a href="promos.html" class="inline-flex items-center gap-1 text-indigo-600 text-sm hover:underline mb-6">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Promos
+    </a>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <!-- Video container -->
+      <div class="bg-black relative">
+        <video id="promo-video" class="w-full" style="max-height:min(480px,56vw)" preload="metadata" aria-label="Promo video" playsinline></video>
+        <div id="video-fallback" class="hidden absolute inset-0 flex items-center justify-center bg-gray-900 text-white text-sm p-6 text-center">
+          <div>
+            <p class="text-4xl mb-3">🎬</p>
+            <p>Video unavailable or unsupported format.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls bar -->
+      <div class="video-ctrl-bar">
+        <button id="play-pause" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Play">
+          <svg id="pp-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pp-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+
+        <!-- Progress -->
+        <div class="flex-1 min-w-0 flex items-center gap-2">
+          <input id="video-progress" type="range" min="0" max="100" value="0" class="flex-1" aria-label="Video progress">
+          <span id="video-time" class="text-xs text-gray-400 flex-shrink-0 w-20 text-right">0:00 / 0:00</span>
+        </div>
+
+        <!-- Volume -->
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6v12m-3.536-9.536a5 5 0 000 7.072"/></svg>
+          <input id="volume" type="range" min="0" max="1" step="0.05" value="1" class="w-16" aria-label="Volume">
+        </div>
+
+        <button id="caption-toggle" class="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Toggle captions">CC</button>
+        <button id="fullscreen-btn" class="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-400" aria-label="Fullscreen">⛶</button>
+      </div>
+
+      <!-- Info -->
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4 flex-wrap mb-3">
+          <h1 id="promo-title" class="text-2xl font-bold text-gray-800"></h1>
+          <span id="promo-status" class="hidden text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium">Published</span>
+        </div>
+        <p id="promo-desc" class="text-gray-600 text-sm leading-relaxed"></p>
+
+        <!-- Caption text / transcript -->
+        <div id="caption-text-section" class="hidden mt-5 pt-5 border-t border-gray-100">
+          <h2 class="font-semibold text-gray-700 mb-2 text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+            Captions / Transcript
+          </h2>
+          <p id="caption-text-body" class="text-sm text-gray-600 leading-relaxed bg-gray-50 rounded-xl p-4 whitespace-pre-wrap"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/promos.js"></script>
+  <script>
+    $(function () {
+      setupAjax();
+      $('#nav-placeholder').load('partials/nav.html');
+      $('#footer-placeholder').load('partials/footer.html');
+    });
+  </script>
+</body>
+</html>
